@@ -47,6 +47,30 @@ class FileInstanceTest {
         file.root().delete()
     }
 
+    @Test
+    fun copyTo_copyFileProperly() {
+        val file = root.resolve("subfolderA").resolve("test.txt")
+        val target = root.resolve("subfolderB").resolve("test2.txt")
+
+        file.write("test content")
+        file.copyTo(target)
+
+        assertEquals("test content", target.read())
+        assertTrue(file.exists())
+    }
+
+    @Test
+    fun moveTo_moveFileProperly() {
+        val file = root.resolve("subfolderA").resolve("test.txt")
+        val target = root.resolve("subfolderB").resolve("test2.txt")
+
+        file.write("test content")
+        file.moveTo(target)
+
+        assertEquals("test content", target.read())
+        assertFalse(file.exists())
+    }
+
     @After
     fun tearDown() {
         root.delete()

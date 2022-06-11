@@ -41,6 +41,19 @@ class FileInstance(first: String, vararg others: String) {
         return path.toFile().readText()
     }
 
+    fun copyTo(target: FileInstance) {
+        path.toFile().copyRecursively(target.path.toFile(), true)
+    }
+
+    fun moveTo(target: FileInstance) {
+        copyTo(target)
+        delete()
+    }
+
+    fun exists(): Boolean {
+        return path.toFile().exists()
+    }
+
     private fun createIfNecessary() {
         val file = path.toFile()
         if (file.exists()) {
